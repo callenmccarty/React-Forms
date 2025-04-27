@@ -1,8 +1,39 @@
 import { useState } from "react"
-function SignUpForm(){
-    return (
-        <h2>Hello!</h2>
-    )
+import axios from "axios"
+
+function SignUpForm() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword]= useState("");
+    const [error, setError]= useState(null);
+    
+    async function handleSubmit(event) {
+        event.preventDefault();
+       try { 
+        const signUp = await axios.post("https://fsa-jwt-practice.herokuapp.com/signup", {username,password})
+        console.log(signUp)
+       } 
+       catch (error) {
+        setError(error.message);
+    }
 }
 
+    return( 
+        <>
+        <h2>Hello!</h2>
+        {error && <p>{error}</p>}
+
+        <form onSubmit = {handleSubmit}>
+            <label> 
+                Username: 
+                <input type = "text" value={username} onChange={(u) => setUsername (u.target.value)}/> 
+            </label>
+            <label>
+                Password: 
+                <input type="password" value={password}  onChange={(u) => setPassword (u.target.value)}/> 
+            </label>
+            <button>login</button>
+        </form>
+        </>
+    );
+}
 export default SignUpForm
