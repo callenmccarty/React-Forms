@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-function SignUpForm() {
+function SignUpForm({token, setToken}) {
     const [username, setUsername] = useState("");
     const [password, setPassword]= useState("");
     const [error, setError]= useState(null);
@@ -9,8 +9,10 @@ function SignUpForm() {
     async function handleSubmit(event) {
         event.preventDefault();
        try { 
+        setToken (result.token)
         const signUp = await axios.post("https://fsa-jwt-practice.herokuapp.com/signup", {username,password})
         console.log(signUp)
+        window.localStorage.setItem("token", signUp.token)
        } 
        catch (error) {
         setError(error.message);
