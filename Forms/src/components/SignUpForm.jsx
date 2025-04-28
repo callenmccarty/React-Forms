@@ -8,9 +8,14 @@ function SignUpForm() {
     
     async function handleSubmit(event) {
         event.preventDefault();
+        const user ={
+            username,
+            password
+        }
        try { 
-        const signUp = await axios.post("https://fsa-jwt-practice.herokuapp.com/signup", {username,password})
+        const signUp = await axios.post("https://fsa-jwt-practice.herokuapp.com/signup", user)
         console.log(signUp)
+        window.localStorage.setItem("token", signUp.data.token)
        } 
        catch (error) {
         setError(error.message);
