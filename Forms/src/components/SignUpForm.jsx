@@ -13,8 +13,12 @@ function SignUpForm({token, setToken}) {
             password
         }
        try { 
-        const signUp = await axios.post("https://fsa-jwt-practice.herokuapp.com/signup", {username,password})
-        console.log(signUp)
+        const signUp = await axios.post('https://fsa-jwt-practice.herokuapp.com/signup', user, {
+            headers : {"Content-Type" :`application/json`}
+        })
+        console.log(signUp.data)
+        window.localStorage.setItem("token", signUp.data.token)
+        token = setToken(signUp.data.token)
        } 
        catch (error) {
         setError(error.message);
