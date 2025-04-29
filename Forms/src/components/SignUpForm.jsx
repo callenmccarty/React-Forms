@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-function SignUpForm({token, setToken}) {
+function SignUpForm({token, setToken ,setUser}) {
     const [username, setUsername] = useState("");
     const [password, setPassword]= useState("");
     const [error, setError]= useState(null);
@@ -13,12 +13,16 @@ function SignUpForm({token, setToken}) {
             password
         }
        try { 
+        if (username === "" || password === "") {
+            throw Error("please enter a username and valid password");
+        }
         const signUp = await axios.post('https://fsa-jwt-practice.herokuapp.com/signup', user, {
             headers : {"Content-Type" :`application/json`}
         })
-        console.log(signUp.data)
         window.localStorage.setItem("token", signUp.data.token)
         token = setToken(signUp.data.token)
+        console.log(username)
+        setUser({username})
        } 
        catch (error) {
         setError(error.message);
@@ -27,7 +31,6 @@ function SignUpForm({token, setToken}) {
 
     return( 
         <>
-        <h2>Hello!</h2>
         {error && <p>{error}</p>}
 
         <form onSubmit = {handleSubmit}>

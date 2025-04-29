@@ -1,9 +1,10 @@
 import { useState } from "react"
 import axios from "axios"
 
-function Authenticate({token}){
+function Authenticate({token, user}){
     const[error,setError] = useState (null);
     const[success,setSuccess] = useState (null);
+
 
     async function handleClick() {
         try {
@@ -21,11 +22,15 @@ function Authenticate({token}){
         }
         
     }
-   return <div> <h2>Authenticate</h2>
+   return <div> 
+    <h2>Authenticate</h2>
+    {user && <p>Logged in as: <strong>{user.username}</strong></p>}
    {error && <p>{error}</p>}
    {success && <p>{success}</p>}
+ 
      <button onClick={handleClick}>"Authenticate Token"</button>
      
-</div>}
+     </div>
+}
 
 export default Authenticate
